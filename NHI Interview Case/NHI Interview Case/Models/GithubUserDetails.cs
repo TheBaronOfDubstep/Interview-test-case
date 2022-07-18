@@ -1,5 +1,4 @@
-﻿using NHI_Interview_Case.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
 

@@ -2,20 +2,20 @@
 
 namespace NHI_Interview_Case.Models
 {
-    public interface IRepository<T> where T : class, new()
+    public interface IRepository
     {
         /// <summary>
         /// Data storage object
         /// </summary>
-        IEnumerable<T> Storage { get; }
+        IEnumerable<GithubUserDetails> Users { get; }
 
-        void AddItem(T item);
-        void RemoveItem(T item);
+        void AddItem(GithubUserDetails item);
+        void RemoveItem(GithubUserDetails item);
 
-        bool HasItem(T item);
+        bool HasItem(GithubUserDetails item);
         bool HasItem(string key);
 
-        T Get(string key);
+        GithubUserDetails GetGithubUserDetails(string key);
 
     }
 }

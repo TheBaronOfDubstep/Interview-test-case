@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using J = System.Text.Json;
-using NHI_Interview_Case.Model;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using NHI_Interview_Case.Models;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace NHI_Interview_Case.Controllers
 {
@@ -15,7 +16,10 @@ namespace NHI_Interview_Case.Controllers
     [Route("api/[controller]")]
     public class GithubUsersController : ControllerBase
     {
-        private readonly IRepository<GithubUser> m_githubUserRepository = new GithubUserRepository();
+
+        public GithubUsersController()
+        {
+        }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status302Found)]
@@ -31,20 +35,20 @@ namespace NHI_Interview_Case.Controllers
         [Route("paged/{start}/{pagesize}")]
         public async Task<ActionResult<GithubUser[]>> GetUserPaged(int start, int pagesize)
         {
+            List<GithubUser> _u = new List<GithubUser>();
             try
             {
                 using (HttpClient c = new HttpClient())
                 {
                     c.DefaultRequestHeaders.Add("User-Agent", "Crew Chief Divider");
                     HttpResponseMessage res = await c.GetAsync(string.Format("https://api.github.com/users?since={0}&per_page={1}", start, pagesize));
-                    if (res.StatusCode == System.Net.HttpStatusCode.NotFound)
-                        throw new ArgumentException("Unable to page users due to erroneous parameters.");
+
                     J.JsonDocument jdoc = J.JsonDocument.Parse(res.Content.ReadAsStringAsync().Result);
                     foreach (J.JsonElement je in jdoc.RootElement.EnumerateArray())
                     {
-                        m_githubUserRepository.AddItem(GithubUser.FromJson(je));
+                        _u.Add(GithubUser.FromJson(je));
                     }
-                    return Ok(m_githubUserRepository.Storage);
+                    return Ok(_u);
                 }
             }
             catch (Exception ex)
@@ -59,8 +63,10 @@ namespace NHI_Interview_Case.Controllers
         [Route("{username}")]
         public async Task<ActionResult<GithubUserDetails>> GetUserDetails(string username)
         {
+            IRepository rep = HttpContext.RequestServices.GetService<IRepository>();
             try
             {
+                if (rep.HasItem(username)) return Ok(rep.GetGithubUserDetails(username));
                 using (HttpClient c = new HttpClient())
                 {
                     c.DefaultRequestHeaders.Add("User-Agent", "Crew Chief Divider");
@@ -73,6 +79,7 @@ namespace NHI_Interview_Case.Controllers
                     {
                         user.Top10Repos.Add(GithubRepo.FromJson(elem));
                     }
+                    rep.AddItem(user);
                     return Ok(user);
                 }
             }

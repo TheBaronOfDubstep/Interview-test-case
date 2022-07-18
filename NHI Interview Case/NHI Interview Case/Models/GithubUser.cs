@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 
-namespace NHI_Interview_Case.Model
+namespace NHI_Interview_Case.Models
 {
     public class GithubUser
     {

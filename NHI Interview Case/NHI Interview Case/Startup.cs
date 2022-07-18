@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NHI_Interview_Case.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace NHI_Interview_Case
         {
             services.AddControllers();
             services.AddSwaggerGen();
+            services.AddSingleton<IRepository>(new GithubDataRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

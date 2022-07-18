@@ -1,15 +1,11 @@
 ﻿## Refactoring
 
-I did chose to forego having a database backend to drive a proxy service. I honestly 
-assumed it would have been outside the scope of this assignment to begin with.
+I don't really see where I can refactor any further than I already have at a glance. 
 
 ## Optimization
 
-As mentioned above, the best form for optimization when regarding the number of requests 
-to the github API would have been a database backed proxy service. For best performance 
-and lowest cost impact, a NOSQL database would have been sufficient. This would have meant
-that we would have had an ever growing duplicate of the github user database, and I am
-unsure of the benefits of chosing such an eccentric "optimization". 
+I chose to optimize the solution with a singleton backed repository, using the already established
+practice of dependency injection. 
 
 ## Organizing the code
 
@@ -19,11 +15,12 @@ a matter of unconcious habits and personal taste.
 
 ## Future development if given more time.
 
-If being set to expand on this solution, my first priority would be to implement 
-a proper proxy service. 
+I would attempt to add some sort of proxy service for the basic user objects, but I find that
+this is more of a philosophical question whether to implement or not. I therefore chose not to 
+as the affected bandwidth usage, paging, and lookup should be small enough to handle this as is.
 
 ## Swagger UI
 
-I am more accustomed to using Postman (https://postman.com), but Swagger turns out to fit my
+I am more accustomed to using Postman (https://postman.com), but Swagger turned out to fit my
 needs just as well.
 
