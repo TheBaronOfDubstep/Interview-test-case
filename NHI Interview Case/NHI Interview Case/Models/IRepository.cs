@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace NHI_Interview_Case.Models
 {
-    public interface IRepository
+    public interface IRepository : IDisposable
     {
         /// <summary>
         /// Data storage object

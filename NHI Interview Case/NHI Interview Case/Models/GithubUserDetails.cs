@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace NHI_Interview_Case.Models
 {
-    public class GithubUserDetails : GithubUser
+    public class GithubUserDetails : GithubUserLogins
     {
         public string Name { get; set; }
         public DateTime Created { get; set; }

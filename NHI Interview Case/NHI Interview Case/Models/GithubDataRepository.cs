@@ -35,5 +35,10 @@ namespace NHI_Interview_Case.Models
         {
             return m_userDetails.Find(u => u.Login == key);
         }
+
+        public void Dispose()
+        {
+            m_userDetails.Clear();
+        }
     }
 }
